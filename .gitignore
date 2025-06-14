@@ -1,0 +1,21 @@
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VSCode specific files
+.vscode/
+
+# Molecule and Ansible specific files
+.ansible/
+molecule/.cache/
+molecule/.config/
+molecule/.local/
+molecule/.pytest_cache/
+molecule/default/.molecule/
+*.retry
+*.log
+
+# Python virtual environment
+venv/
+__pycache__/
