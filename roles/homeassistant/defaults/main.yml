@@ -1,0 +1,33 @@
+---
+# User and group configuration
+homeassistant_manage_user: true
+homeassistant_manage_group: true
+homeassistant_user: hass
+homeassistant_group: hass
+homeassistant_uid:
+homeassistant_gid:
+# Data directory configuration
+homeassistant_data_dir: /srv/homeassistant/data
+homeassistant_data_dir_mode: "0750"
+
+# Docker compose directory/file configuration
+homeassistant_compose_dir: /srv/homeassistant/compose
+homeassistant_compose_filename: docker-compose.yml
+homeassistant_compose_owner: root
+homeassistant_compose_group: docker
+homeassistant_compose_dir_mode: "0750"
+homeassistant_compose_file_mode: "0640"
+
+# Docker container configuration
+homeassistant_repo: lscr.io/linuxserver/homeassistant # cspell: disable-line
+homeassistant_version: 2025.5.1-ls103
+homeassistant_service_name: homeassistant
+homeassistant_stop_grace_period: 60s
+homeassistant_restart_policy: unless-stopped
+homeassistant_networks: []
+homeassistant_network_mode: bridge # ignored if homeassistant_networks is set
+homeassistant_additional_envs: []
+homeassistant_additional_options: []
+homeassistant_additional_volumes: []
+homeassistant_cap_add: []
+homeassistant_cap_drop: []

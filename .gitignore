@@ -6,8 +6,10 @@
 # VSCode specific files
 .vscode/
 
-# Molecule and Ansible specific files
+# Ansible and Molecule specific files
 .ansible/
+collections/
+tests/output/
 molecule/.cache/
 molecule/.config/
 molecule/.local/

@@ -1,0 +1,14 @@
+# Metadata for the home-assistant role
+---
+# dependency: []
+galaxy_info:
+  role_name: homeassistant
+  author: Brian Clark
+  namespace: bdclark
+  description: Ansible role for managing Home Assistant
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all

@@ -1,0 +1,27 @@
+---
+version: "0.2"
+language: en
+words:
+  - ansible
+  - appgroup
+  - appuser
+  - bdclark
+  - cgroupns
+  - dbus
+  - DISTRO
+  - endfor
+  - geerlingguy
+  - getent
+  - getgrnam
+  - getpwnam
+  - hass
+  - HomeAssistant
+  - nologin
+  - noqa
+  - PGID
+  - PUID
+  - pycache
+  - pytest
+  - venv
+  - yaml
+ignorePaths: []

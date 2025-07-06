@@ -1,0 +1,42 @@
+---
+services:
+  {{ homeassistant_service_name }}:
+    image: {{ homeassistant_repo }}:{{ homeassistant_version }}
+    container_name: {{ homeassistant_service_name }}
+    restart: {{ homeassistant_restart_policy }}
+    stop_grace_period: {{ homeassistant_stop_grace_period }}
+    volumes:
+      - {{ homeassistant_data_dir }}:/config
+{% for volume in homeassistant_additional_volumes | default([], true) %}
+      - {{ volume }}
+{% endfor %}
+    environment:
+      - PUID={{ homeassistant_uid }}
+      - PGID={{ homeassistant_gid }}
+      - TZ=Etc/UTC
+{% for env in homeassistant_additional_envs | default([], true) %}
+      - {{ env }}
+{% endfor %}
+{% if homeassistant_networks | default([], true) %}
+    networks:
+{% for network in homeassistant_networks %}
+      - {{ network }}
+{% endfor %}
+{% else %}
+    network_mode: {{ homeassistant_network_mode }}
+{% endif %}
+{% for option in homeassistant_additional_options | default([], true) %}
+    {{ option }}
+{% endfor %}
+{% if homeassistant_cap_add | default([], true) %}
+    cap_add:
+{% for cap in homeassistant_cap_add %}
+      - {{ cap }}
+{% endfor %}
+{% endif %}
+{% if homeassistant_cap_drop | default([], true) | length > 0 %}
+    cap_drop:
+{% for cap in homeassistant_cap_drop %}
+      - {{ cap }}
+{% endfor %}
+{% endif %}

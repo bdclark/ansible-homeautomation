@@ -1,0 +1,53 @@
+---
+- name: Ensure Home Assistant group exists
+  ansible.builtin.group:
+    name: "{{ homeassistant_group }}"
+    system: true
+    gid: "{{ homeassistant_gid | default(omit, true) }}"
+  register: _homeassistant_group_info
+  when: homeassistant_manage_group
+
+- name: Ensure home assistant user
+  ansible.builtin.user:
+    name: "{{ homeassistant_user }}"
+    system: true
+    create_home: false
+    shell: /usr/sbin/nologin
+    uid: "{{ homeassistant_uid | default(omit, true) }}"
+    group: "{{ homeassistant_group }}"
+  register: _homeassistant_user_info
+  when: homeassistant_manage_user
+
+- name: Get UID and GID of home assistant user
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ homeassistant_user }}"
+
+- name: Parse UID and GID of home assistant user
+  ansible.builtin.set_fact:
+    homeassistant_uid: "{{ ansible_facts.getent_passwd[homeassistant_user][1] }}"
+    homeassistant_gid: "{{ ansible_facts.getent_passwd[homeassistant_user][2] }}"
+
+- name: Ensure directory for docker compose file
+  ansible.builtin.file:
+    path: "{{ homeassistant_compose_dir }}"
+    state: directory
+    owner: "{{ homeassistant_compose_owner }}"
+    group: "{{ homeassistant_compose_group }}"
+    mode: "{{ homeassistant_compose_dir_mode }}"
+
+- name: Ensure data directory for Home Assistant
+  ansible.builtin.file:
+    path: "{{ homeassistant_data_dir }}"
+    state: directory
+    owner: "{{ homeassistant_user }}"
+    group: "{{ homeassistant_group }}"
+    mode: "{{ homeassistant_data_dir_mode }}"
+
+- name: Manage Docker Compose file for Home Assistant
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ homeassistant_compose_dir }}/{{ homeassistant_compose_filename }}"
+    owner: "{{ homeassistant_compose_owner }}"
+    group: "{{ homeassistant_compose_group }}"
+    mode: "{{ homeassistant_compose_file_mode }}"

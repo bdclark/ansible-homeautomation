@@ -1,0 +1,39 @@
+---
+- name: Converge
+  hosts: all
+  # gather_facts: true
+  tasks:
+    - name: Generate Docker Compose file
+      bdclark.home_automation.docker_compose_gen:
+        compose:
+          version: "3.9"
+          services:
+            web:
+              image: nginx:latest
+        dest: /tmp/docker-compose.yml
+        validate: true
+      register: compose_gen_result
+
+    - name: Assert Docker Compose file generation output
+      ansible.builtin.assert:
+        that:
+          - compose_gen_result is not none
+          - compose_gen_result.dest == '/tmp/docker-compose.yml'
+          - compose_gen_result.content is not none
+          - compose_gen_result.content | length > 0
+
+    - name: Check if Docker Compose file exists
+      ansible.builtin.stat:
+        path: /tmp/docker-compose.yml
+      register: compose_file
+
+    - name: Assert Docker Compose file exists
+      ansible.builtin.assert:
+        that:
+          - compose_file.stat.exists
+
+    - name: Validate Docker Compose file
+      ansible.builtin.command: docker compose -f /tmp/docker-compose.yml config
+      register: validation_result
+      failed_when: validation_result.rc != 0
+      changed_when: false

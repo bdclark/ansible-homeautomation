@@ -1,0 +1,21 @@
+---
+namespace: bdclark
+name: home_automation
+version: 1.0.0
+readme: README.md
+authors:
+  - Brian Clark
+description: Ansible collection for home automation.
+license:
+  - MIT
+dependencies: {}
+repository: https://github.com/bdclark/ansible-home-automation
+# documentation: https://github.com/bdclark/ansible-home-automation/docs
+# issues: https://github.com/bdclark/ansible-home-automation/issues
+tags:
+  - application
+  - homeassistant
+  - home
+  - assistant
+  - automation
+  - hass
